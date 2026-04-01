@@ -140,34 +140,3 @@ jobs:
           name: allure-report-combined
           path: target/allure-report/
           retention-days: 30
-
-  # ─────────────────────────────────────────────────────────────────────────────
-  # Notify on failure (optional — configure Slack webhook in repo secrets)
-  # ─────────────────────────────────────────────────────────────────────────────
-  notify:
-    name: Notify on Failure
-    runs-on: ubuntu-latest
-    needs: test
-    if: failure() && github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Post Slack notification
-        if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
-        uses: slackapi/slack-github-action@v1.26.0
-        with:
-          payload: |
-            {
-              "text": "❌ Craigslist tests FAILED on `${{ github.ref_name }}`",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*❌ Test run failed*\nBranch: `${{ github.ref_name }}`\nCommit: `${{ github.sha }}`\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
-                  }
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
