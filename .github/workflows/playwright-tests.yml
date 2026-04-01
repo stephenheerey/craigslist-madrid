@@ -33,7 +33,7 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   test:
     name: Run Tests (${{ matrix.browser }})
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -62,15 +62,7 @@ jobs:
       - name: Install Maven dependencies
         run: mvn install -DskipTests --no-transfer-progress
 
-      - name: Install Playwright system dependencies
-        run: |
-            sudo apt-get update
-            sudo apt-get install -y \
-              libffi7 \
-              libx264-163 \
-              libasound2t64
-
-      - name: Install Playwright browsers
+      - name: Install Playwright browsers and system dependencies
         run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps ${{ matrix.browser }}"
 
       - name: Run tests
