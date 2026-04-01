@@ -62,10 +62,14 @@ jobs:
       - name: Install Maven dependencies
         run: mvn install -DskipTests --no-transfer-progress
 
-      - name: Install Ubuntu 24.04 compatibility layer
+      - name: Install Playwright system dependencies
         run: |
-              sudo apt-get update
-              sudo apt-get install -y libasound2t64
+            sudo apt-get update
+            sudo apt-get install -y \
+              libffi7 \
+              libx264-163 \
+              libasound2t64
+
       - name: Install Playwright browsers
         run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps ${{ matrix.browser }}"
 
