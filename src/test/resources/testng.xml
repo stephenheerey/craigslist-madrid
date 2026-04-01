@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Craigslist Madrid Test Suite" verbose="1" parallel="methods" thread-count="2">
+
+    <listeners>
+        <listener class-name="listeners.TestListener"/>
+        <listener class-name="listeners.SuiteListener"/>
+    </listeners>
+
+    <test name="Housing Tests">
+        <classes>
+            <class name="tests.HousingTest"/>
+        </classes>
+    </test>
+</suite>
